@@ -1,0 +1,7 @@
+name: PocketIslands
+main: AndreasHGK\PocketIslands\Main
+version: 1.0.0
+api: 3.5.0
+load: STARTUP
+author: AndreasHGK
+description: A much better generator for Pocketmine-MP
