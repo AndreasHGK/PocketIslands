@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+
+
 namespace AndreasHGK\PocketIslands\generator;
 
+//require 'vendor/autoload.php';
 use AndreasHGK\PocketIslands\biome\IslandSelector;
 use AndreasHGK\PocketIslands\Main;
 
@@ -21,31 +24,33 @@ use pocketmine\level\generator\object\OreType;
 use pocketmine\level\generator\populator\GroundCover;
 use pocketmine\level\generator\populator\Ore;
 use pocketmine\level\generator\populator\Populator;
-use AndreasHGK\PocketIslands\biome\Beach;
 
+use AndreasHGK\PocketIslands\biome\Beach;
+use AndreasHGK\PocketIslands\biome\DeepSea;
+use AndreasHGK\PocketIslands\biome\DesertPlus;
+use AndreasHGK\PocketIslands\biome\ForestPlus;
+use AndreasHGK\PocketIslands\biome\IcePlainsPlus;
+use AndreasHGK\PocketIslands\biome\Lake;
+use AndreasHGK\PocketIslands\biome\MountainsPlus;
+use AndreasHGK\PocketIslands\biome\PalmBeach;
+use AndreasHGK\PocketIslands\biome\PlainsPlus;
+use AndreasHGK\PocketIslands\biome\Shore;
+use AndreasHGK\PocketIslands\biome\TaigaPlus;
 
 class IslandGenerator extends Generator{
 
-    protected $biomes;
-    /** @var IslandSelector */
+    public static $biomes = [ ];
+    public static $biomeById = [ ];
+
     protected $selector;
-    /** @var Level */
     protected $level;
-    /** @var Random */
     protected $random;
-    /** @var Populator[] */
     protected $populators = [ ];
-    /** @var Populator[] */
     protected $generationPopulators = [ ];
-    /** @var Level[] */
     public static $levels = [ ];
-    /** @var int[][] */
     protected static $GAUSSIAN_KERNEL = null; // From main class
-    /** @var int */
     protected static $SMOOTH_SIZE = 5;
-    /** @var mixed[][] */
     public $options = [];
-    /** @var int */
     protected $waterHeight = 63;
     protected $noiseBase;
 
@@ -88,30 +93,34 @@ class IslandGenerator extends Generator{
 
         $this->selector = new class($this->random) extends IslandSelector{
             protected function lookup(float $temperature, float $rainfall) : int{
-                if($rainfall < 0.62){
-                    return Biome::OCEAN;
+                if($rainfall < 0.50){
+                    return Main::DEEPSEA;
+                }elseif($rainfall < 0.58){
+                    return Main::SHORE;
+                }elseif($rainfall < 0.62){
+                    return Main::BEACH;
                 }elseif($rainfall < 0.65){
-                    return Biome::DESERT;
+                    return Main::PALMBEACH;
                 }elseif($rainfall < 0.88){
                     if($temperature < 0.1){
-                        return Biome::ICE_PLAINS;
+                        return Main::ICE_PLAINS;
                     }elseif($temperature < 0.2){
-                        return Biome::TAIGA;
+                        return Main::TAIGA;
                     }elseif($temperature < 0.45){
-                        return Biome::FOREST;
+                        return Main::FOREST;
                     }elseif($temperature < 0.6){
-                        return Biome::PLAINS;
+                        return Main::PLAINS;
                     }elseif($temperature < 0.8){
-                        return Biome::SMALL_MOUNTAINS;
+                        return Main::MOUNTAINS;
                     }elseif($temperature < 0.9){
-                        return Biome::PLAINS;
+                        return Main::PLAINS;
                     }else{
-                        return Biome::DESERT;
+                        return Main::DESERT;
                     }
                 }elseif($rainfall < 92){
-                    return Biome::DESERT;
+                    return Main::BEACH;
                 }else{
-                    return Biome::RIVER;
+                    return Main::LAKE;
                 }
             }
         };
@@ -202,6 +211,24 @@ class IslandGenerator extends Generator{
      * @param array $options
      */
     public function __construct(array $options = []){
+
+        \pocketmine\level\biome\Biome::init();
+
+        $reflect = new \ReflectionMethod(\pocketmine\level\biome\Biome::class, 'register');
+        $reflect->setAccessible(true);
+
+        $reflect->invoke(null, Main::BEACH, new Beach());
+        $reflect->invoke(null, Main::LAKE, new Lake());
+        $reflect->invoke(null, Main::PALMBEACH, new PalmBeach());
+        $reflect->invoke(null, Main::SHORE, new Shore());
+        $reflect->invoke(null, Main::DESERT, new DesertPlus());
+        $reflect->invoke(null, Main::FOREST, new ForestPlus());
+        $reflect->invoke(null, Main::ICE_PLAINS, new IcePlainsPlus());
+        $reflect->invoke(null, Main::MOUNTAINS, new MountainsPlus());
+        $reflect->invoke(null, Main::PLAINS, new PlainsPlus());
+        $reflect->invoke(null, Main::TAIGA, new TaigaPlus());
+        $reflect->invoke(null, Main::DEEPSEA, new DeepSea());
+
         $this->options = $options;
         if (self::$GAUSSIAN_KERNEL === null) {
             self::generateKernel ();

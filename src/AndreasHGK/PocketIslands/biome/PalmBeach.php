@@ -7,6 +7,8 @@ namespace AndreasHGK\PocketIslands\biome;
 use pocketmine\block\Block;
 use pocketmine\block\BlockFactory;
 use pocketmine\level\biome\Biome;
+use AndreasHGK\PocketIslands\Main;
+use pocketmine\level\biome\SandyBiome;
 
 class PalmBeach extends Biome{
     public function __construct(){
@@ -23,5 +25,9 @@ class PalmBeach extends Biome{
     public function getName() : string
     {
         return "PalmBeach";
+    }
+
+    public function getId(): int {
+        return Main::PALMBEACH;
     }
 }

@@ -6,10 +6,11 @@ namespace AndreasHGK\PocketIslands\biome;
 
 use pocketmine\block\Block;
 use pocketmine\block\BlockFactory;
+use pocketmine\level\biome\OceanBiome;
 use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\biome\Biome;
 
-class DeepSea extends Biome{
+class DeepSea extends Biome {
     public function __construct(){
         $this->setGroundCover([
             BlockFactory::get(Block::GRAVEL),
@@ -28,4 +29,9 @@ class DeepSea extends Biome{
     public function getName() : string{
         return "DeepSea";
     }
+
+    public function getId(): int {
+        return Biome::OCEAN;
+    }
+
 }

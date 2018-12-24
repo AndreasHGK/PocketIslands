@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace AndreasHGK\PocketIslands\biome;
 
+use AndreasHGK\PocketIslands\generator\IslandGenerator;
 use pocketmine\level\biome\Biome;
 use pocketmine\level\biome\UnknownBiome;
 use pocketmine\level\generator\noise\Simplex;
 use pocketmine\utils\Random;
 
 abstract class IslandSelector{
-    protected $biomes;
+
     /** @var Simplex */
     private $temperature;
     /** @var Simplex */

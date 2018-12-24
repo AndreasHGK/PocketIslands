@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace AndreasHGK\PocketIslands\biome;
 
+use AndreasHGK\PocketIslands\Main;
 use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\Tree;
 use pocketmine\level\biome\GrassyBiome;
+use pocketmine\level\biome\Biome;
 
 class MountainsPlus extends GrassyBiome{
     public function __construct(){
@@ -22,6 +24,10 @@ class MountainsPlus extends GrassyBiome{
         $this->rainfall = 0.5;
     }
     public function getName() : string{
-        return "MountainsPlus";
+        return "Mountains";
+    }
+
+    public function getId(): int {
+        return Main::MOUNTAINS;
     }
 }

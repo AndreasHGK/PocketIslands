@@ -13,9 +13,11 @@ Things i have or haven't done yet:
  
  [✔] Generate seperate islands
  
- [✖] Custom and better biomes
+ [✔] Custom and better biomes
  
  [✖] Palm tree populator
+ 
+ [✖] Finishing off other biomes
  
  [✖] Better mountains
  
