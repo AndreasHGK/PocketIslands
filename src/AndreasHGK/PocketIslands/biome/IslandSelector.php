@@ -12,6 +12,7 @@ use pocketmine\utils\Random;
 
 abstract class IslandSelector{
 
+    private $height;
     /** @var Simplex */
     private $temperature;
     /** @var Simplex */
@@ -19,8 +20,9 @@ abstract class IslandSelector{
     /** @var Biome[]|\SplFixedArray */
     private $map = null;
     public function __construct(Random $random){
-        $this->temperature = new Simplex($random, 2, 1 / 16, 1 / 1024);
-        $this->rainfall = new Simplex($random, 2, 1 / 16, 1 / 700);
+        $this->rainfall = new Simplex($random, 6, 1 / 8, 1 / 700);
+        $this->temperature = new Simplex($random, 6, 1 / 8, 1 / 1024);
+        $this->rainfall = new Simplex($random, 6, 1 / 8, 1 / 1024);
     }
     /**
      * Lookup function called by recalculate() to determine the biome to use for this temperature and rainfall.
@@ -30,16 +32,18 @@ abstract class IslandSelector{
      *
      * @return int biome ID 0-255
      */
-    abstract protected function lookup(float $temperature, float $rainfall) : int;
+    abstract protected function lookup(float $height, float $temperature, float $rainfall) : int;
     public function recalculate() : void{
-        $this->map = new \SplFixedArray(64 * 64);
+        $this->map = new \SplFixedArray(64 * 64 * 64);
         for($i = 0; $i < 64; ++$i){
             for($j = 0; $j < 64; ++$j){
-                $biome = Biome::getBiome($this->lookup($i / 63, $j / 63));
-                if($biome instanceof UnknownBiome){
-                    throw new \RuntimeException("Unknown biome returned by selector with ID " . $biome->getId());
+                for($k = 0; $k < 64; ++$k) {
+                    $biome = Biome::getBiome($this->lookup($i / 63, $j / 63, $k / 63));
+                    if ($biome instanceof UnknownBiome) {
+                        throw new \RuntimeException("Unknown biome returned by selector with ID " . $biome->getId());
+                    }
+                    $this->map[$i + ($j << 6)] = $biome;
                 }
-                $this->map[$i + ($j << 6)] = $biome;
             }
         }
     }

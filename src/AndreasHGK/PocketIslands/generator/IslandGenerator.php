@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace AndreasHGK\PocketIslands\generator;
 
-//require 'vendor/autoload.php';
 use AndreasHGK\PocketIslands\biome\IslandSelector;
 use AndreasHGK\PocketIslands\Main;
 
@@ -36,6 +35,7 @@ use AndreasHGK\PocketIslands\biome\PalmBeach;
 use AndreasHGK\PocketIslands\biome\PlainsPlus;
 use AndreasHGK\PocketIslands\biome\Shore;
 use AndreasHGK\PocketIslands\biome\TaigaPlus;
+use AndreasHGK\PocketIslands\biome\SmallMountainsPlus;
 
 class IslandGenerator extends Generator{
 
@@ -49,7 +49,7 @@ class IslandGenerator extends Generator{
     protected $generationPopulators = [ ];
     public static $levels = [ ];
     protected static $GAUSSIAN_KERNEL = null; // From main class
-    protected static $SMOOTH_SIZE = 5;
+    protected static $SMOOTH_SIZE = 2;
     public $options = [];
     protected $waterHeight = 63;
     protected $noiseBase;
@@ -88,39 +88,73 @@ class IslandGenerator extends Generator{
         self::$levels[] = $level;
 
         $this->random->setSeed($this->level->getSeed ());
-        $this->noiseBase = new Simplex($this->random, 6, 0.3, 1/45);
+        $this->noiseBase = new Simplex($this->random, 6, 0.3, 1/44);
         $this->random->setSeed($this->level->getSeed ());
 
         $this->selector = new class($this->random) extends IslandSelector{
-            protected function lookup(float $temperature, float $rainfall) : int{
-                if($rainfall < 0.50){
+            protected function lookup(float $height, float $temperature, float $rainfall) : int{
+                if($height < 0.50){
                     return Main::DEEPSEA;
-                }elseif($rainfall < 0.58){
+                }elseif($height < 0.57){
                     return Main::SHORE;
-                }elseif($rainfall < 0.62){
+                }elseif($height < 0.60){
                     return Main::BEACH;
-                }elseif($rainfall < 0.65){
-                    return Main::PALMBEACH;
-                }elseif($rainfall < 0.88){
-                    if($temperature < 0.1){
-                        return Main::ICE_PLAINS;
-                    }elseif($temperature < 0.2){
-                        return Main::TAIGA;
-                    }elseif($temperature < 0.45){
-                        return Main::FOREST;
-                    }elseif($temperature < 0.6){
-                        return Main::PLAINS;
-                    }elseif($temperature < 0.8){
-                        return Main::MOUNTAINS;
-                    }elseif($temperature < 0.9){
-                        return Main::PLAINS;
+                }elseif($height < 0.63){
+                    return Main:: PALMBEACH;
+                }elseif($height < 0.83){
+                    if($temperature < 0.25){
+                        if($rainfall < 0.75){
+                            return Main::ICE_PLAINS;
+                        }else{
+                            return Main::TAIGA;
+                        }
+                    }elseif($temperature < 0.80){
+                        if($rainfall < 0.75){
+                            return Main::PLAINS;
+                        }else{
+                            return Main::FOREST;
+                        }
                     }else{
                         return Main::DESERT;
                     }
-                }elseif($rainfall < 92){
-                    return Main::BEACH;
                 }else{
-                    return Main::LAKE;
+                    if($temperature < 0.25){
+                        if($rainfall < 0.10){
+                            return Main::MOUNTAINS;
+                        }elseif($rainfall < 0.20){
+                            return Main::SMALL_MOUNTAINS;
+                        }elseif($rainfall < 0.70){
+                            return Main::ICE_PLAINS;
+                        }elseif($rainfall < 0.88){
+                            return Main::TAIGA;
+                        }elseif($rainfall < 0.91){
+                            return Main::BEACH;
+                        }else{
+                            return Main::LAKE;
+                        }
+                    }elseif($temperature < 0.80){
+                        if($rainfall < 0.10){
+                            return Main::MOUNTAINS;
+                        }elseif($rainfall < 0.20){
+                            return Main::SMALL_MOUNTAINS;
+                        }elseif($rainfall < 0.70){
+                            return Main::PLAINS;
+                        }elseif($rainfall < 0.88){
+                            return Main::FOREST;
+                        }elseif($rainfall < 0.91){
+                            return Main::BEACH;
+                        }else{
+                            return Main::LAKE;
+                        }
+                    }else{
+                        if($rainfall < 0.88){
+                            return Main::DESERT;
+                        }elseif($rainfall < 0.91){
+                            return Main::BEACH;
+                        }else{
+                            return Main::LAKE;
+                        }
+                    }
                 }
             }
         };
@@ -228,6 +262,7 @@ class IslandGenerator extends Generator{
         $reflect->invoke(null, Main::PLAINS, new PlainsPlus());
         $reflect->invoke(null, Main::TAIGA, new TaigaPlus());
         $reflect->invoke(null, Main::DEEPSEA, new DeepSea());
+        $reflect->invoke(null, Main::SMALL_MOUNTAINS, new SmallMountainsPlus());
 
         $this->options = $options;
         if (self::$GAUSSIAN_KERNEL === null) {
@@ -245,7 +280,8 @@ class IslandGenerator extends Generator{
             new OreType(BlockFactory::get(Block::GOLD_ORE), 2, 8, 0, 32),
             new OreType(BlockFactory::get(Block::DIAMOND_ORE), 1, 7, 0, 16),
             new OreType(BlockFactory::get(Block::DIRT), 20, 32, 0, 128),
-            new OreType(BlockFactory::get(Block::GRAVEL), 10, 16, 0, 128)
+            new OreType(BlockFactory::get(Block::GRAVEL), 10, 16, 0, 128),
+            new OreType(BlockFactory::get(Block::EMERALD_ORE), 1, 10, 4, 32)
         ]);
         $this->populators[] = $ores;
     }

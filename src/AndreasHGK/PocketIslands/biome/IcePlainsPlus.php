@@ -15,7 +15,7 @@ class IcePlainsPlus extends SnowyBiome{
         $tallGrass = new TallGrass();
         $tallGrass->setBaseAmount(5);
         $this->addPopulator($tallGrass);
-        $this->setElevation(69, 73);
+        $this->setElevation(68, 75);
         $this->temperature = 0.05;
         $this->rainfall = 0.8;
     }

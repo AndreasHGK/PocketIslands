@@ -19,7 +19,7 @@ class PalmBeach extends Biome{
             BlockFactory::get(Block::SAND),
             BlockFactory::get(Block::SAND)
         ]);
-        $this->setElevation(66, 69);
+        $this->setElevation(64, 69);
         //todo: add palmtree populator
     }
     public function getName() : string

@@ -24,13 +24,13 @@ class Main extends PluginBase{
     public const TAIGA = 209;
     public const DEEPSEA = 210;
     public const PLAINS = 211;
+    public const SMALL_MOUNTAINS = 212;
 
     public function onLoad() : void{
         GeneratorManager::addGenerator(IslandGenerator::class, "islands", true);
     }
 
 	public function onEnable() : void{
-        $gens = GeneratorManager::getGeneratorList();
         foreach($gens as $gen){
             $this->getLogger()->info("generator: ".$gen);
         }

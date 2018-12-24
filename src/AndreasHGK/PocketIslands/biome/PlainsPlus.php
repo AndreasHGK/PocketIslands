@@ -15,7 +15,7 @@ class PlainsPlus extends GrassyBiome{
         $tallGrass = new TallGrass();
         $tallGrass->setBaseAmount(12);
         $this->addPopulator($tallGrass);
-        $this->setElevation(69, 73);
+        $this->setElevation(68, 75);
         $this->temperature = 0.8;
         $this->rainfall = 0.4;
     }
