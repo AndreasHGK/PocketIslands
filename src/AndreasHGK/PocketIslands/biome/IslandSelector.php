@@ -18,8 +18,8 @@ abstract class IslandSelector{
     /** @var Biome[]|\SplFixedArray */
     private $map = null;
     public function __construct(Random $random){
-        $this->temperature = new Simplex($random, 2, 1 / 16, 1 / 512);
-        $this->rainfall = new Simplex($random, 2, 1 / 16, 1 / 512);
+        $this->temperature = new Simplex($random, 2, 1 / 16, 1 / 1024);
+        $this->rainfall = new Simplex($random, 2, 1 / 16, 1 / 700);
     }
     /**
      * Lookup function called by recalculate() to determine the biome to use for this temperature and rainfall.
