@@ -17,7 +17,7 @@ class PalmTree extends Populator{
     private $randomAmount;
     private $baseAmount;
     private $type;
-    public function __construct(int $type = WoodType::OAK){
+    public function __construct(int $type = WoodType::JUNGLE){
         $this->type = $type;
     }
     public function setRandomAmount(int $amount) : void{

@@ -20,20 +20,15 @@ class Main extends PluginBase{
     public const DESERT = 205;
     public const FOREST = 206;
     public const ICE_PLAINS = 207;
-    public const MOUNTAINS = 208;
-    public const TAIGA = 209;
-    public const DEEPSEA = 210;
-    public const PLAINS = 211;
-    public const SMALL_MOUNTAINS = 212;
+    public const TAIGA = 208;
+    public const DEEPSEA = 209;
+    public const PLAINS = 210;
 
     public function onLoad() : void{
         GeneratorManager::addGenerator(IslandGenerator::class, "islands", true);
     }
 
 	public function onEnable() : void{
-        foreach($gens as $gen){
-            $this->getLogger()->info("generator: ".$gen);
-        }
 
 	}
 

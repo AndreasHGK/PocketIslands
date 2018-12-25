@@ -1,4 +1,5 @@
 # PocketIslands
+![alt text](media/picture.png)
 A generator for ***PocketMine-MP*** that generates oceans with islands.
 ## How to
 This plugin can't manage worlds, so you'll need another plugin to create the world.
@@ -15,11 +16,11 @@ Things i have or haven't done yet:
  
  [✔] Custom and better biomes
  
- [✖] Palm tree populator
+ [✔] Better mountains
+ 
+ [✖] Palm trees and cactusses
  
  [✖] Finishing off other biomes
- 
- [✖] Better mountains
  
  [✖] Structures
  

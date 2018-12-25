@@ -23,6 +23,7 @@ use pocketmine\level\generator\object\OreType;
 use pocketmine\level\generator\populator\GroundCover;
 use pocketmine\level\generator\populator\Ore;
 use pocketmine\level\generator\populator\Populator;
+use pocketmine\level\generator\noise\Noise;
 
 use AndreasHGK\PocketIslands\biome\Beach;
 use AndreasHGK\PocketIslands\biome\DeepSea;
@@ -101,14 +102,14 @@ class IslandGenerator extends Generator{
                     return Main::BEACH;
                 }elseif($height < 0.63){
                     return Main::PALMBEACH;
-                }elseif($height < 0.83){
-                    if($temperature < 0.25){
+                }else{
+                    if($temperature < 0.30){
                         if($rainfall < 0.67){
                             return Main::ICE_PLAINS;
                         }else{
                             return Main::TAIGA;
                         }
-                    }elseif($temperature < 0.99){
+                    }elseif($temperature < 0.70){
                         if($rainfall < 0.67){
                             return Main::PLAINS;
                         }else{
@@ -117,46 +118,7 @@ class IslandGenerator extends Generator{
                     }else{
                         return Main::DESERT;
                     }
-                }else{
-                    if($temperature < 0.25){
-                        if($rainfall < 0.10){
-                            return Main::MOUNTAINS;
-                        }elseif($rainfall < 0.20){
-                            return Main::SMALL_MOUNTAINS;
-                        }elseif($rainfall < 0.67){
-                            return Main::ICE_PLAINS;
-                        }elseif($rainfall < 0.88){
-                            return Main::TAIGA;
-                        }elseif($rainfall < 0.93){
-                            return Main::SMALL_MOUNTAINS;
-                        }else{
-                            return Main::MOUNTAINS;
-                        }
-                    }elseif($temperature < 0.80){
-                        if($rainfall < 0.10){
-                            return Main::MOUNTAINS;
-                        }elseif($rainfall < 0.20){
-                            return Main::SMALL_MOUNTAINS;
-                        }elseif($rainfall < 0.67){
-                            return Main::PLAINS;
-                        }elseif($rainfall < 0.88){
-                            return Main::FOREST;
-                        }elseif($rainfall < 0.91){
-                            return Main::SMALL_MOUNTAINS;
-                        }else{
-                            return Main::MOUNTAINS;
-                        }
-                    }else{
-                        if($rainfall < 0.88){
-                            return Main::DESERT;
-                        }elseif($rainfall < 0.93){
-                            return Main::SMALL_MOUNTAINS;
-                        }else{
-                            return Main::MOUNTAINS;
-                        }
-                    }
                 }
-                return Main::BEACH;
             }
         };
 
@@ -204,6 +166,7 @@ class IslandGenerator extends Generator{
                 $minSum /= $weightSum;
                 $maxSum /= $weightSum;
                 $smoothHeight = ($maxSum - $minSum) / 2;
+                $extra = false;
                 for($y = 0; $y < 128; ++$y){
                     if($y === 0){
                         $chunk->setBlock($x, $y, $z, Block::BEDROCK, 0);
@@ -212,10 +175,37 @@ class IslandGenerator extends Generator{
                     $noiseValue = $noise[$x][$z][$y] - 1 / $smoothHeight * ($y - $smoothHeight - $minSum);
                     if($noiseValue > 0){
                         $chunk->setBlock($x, $y, $z, Block::STONE, 0);
+                        if($y > 67){
+                            $extra = true;
+                        }
                     }elseif($y <= $this->waterHeight){
                         $chunk->setBlock($x, $y, $z, Block::STILL_WATER, 0);
                     }
                 }
+                if($extra = true){
+                    $he = $this->selector->getHeight($x + ($chunkX * 16), $z + ($chunkZ * 16));
+                    $hb = 0;
+                    for($yh = 128; $yh > 0; --$yh){
+                        if($this->level->getBlockIdAt($x + ($chunkX * 16), $yh, $z + ($chunkZ * 16)) == 1){
+                            $hb = $yh;
+                            break 1;
+                        }
+                        continue;
+                    }
+                    $ye = pow($hb, 1.2) * ($he - 0.80) / 0.20 - 7;
+                    if($ye < 0){
+                        $ye = pow($hb, 1.05) * ($he - 0.60) / 0.70 - 14;
+                    }else{
+                        $ye = $ye + pow($hb, 1.05) * ($he - 0.60) / 0.70 - 14;
+                    }
+                    for($yc = 0; $yc < $ye; ++$yc){
+                        $chunk->setBlock($x, $yc+$hb, $z, Block::STONE, 0);
+                        if($yc+$hb >= 128){
+                            $chunk->setBlock($x, $yc+$hb+1, $z, Block::SNOW_BLOCK, 3);
+                        }
+                    }
+                }
+
             }
         }
         foreach($this->generationPopulators as $populator){
@@ -259,11 +249,9 @@ class IslandGenerator extends Generator{
         $reflect->invoke(null, Main::DESERT, new DesertPlus());
         $reflect->invoke(null, Main::FOREST, new ForestPlus());
         $reflect->invoke(null, Main::ICE_PLAINS, new IcePlainsPlus());
-        $reflect->invoke(null, Main::MOUNTAINS, new MountainsPlus());
         $reflect->invoke(null, Main::PLAINS, new PlainsPlus());
         $reflect->invoke(null, Main::TAIGA, new TaigaPlus());
         $reflect->invoke(null, Main::DEEPSEA, new DeepSea());
-        $reflect->invoke(null, Main::SMALL_MOUNTAINS, new SmallMountainsPlus());
 
         $this->options = $options;
         if (self::$GAUSSIAN_KERNEL === null) {
