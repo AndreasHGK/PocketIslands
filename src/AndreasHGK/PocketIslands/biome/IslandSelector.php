@@ -8,6 +8,7 @@ use AndreasHGK\PocketIslands\generator\IslandGenerator;
 use pocketmine\level\biome\Biome;
 use pocketmine\level\biome\UnknownBiome;
 use pocketmine\level\generator\noise\Simplex;
+use pocketmine\level\generator\noise\Noise;
 use pocketmine\utils\Random;
 
 abstract class IslandSelector{
@@ -20,12 +21,12 @@ abstract class IslandSelector{
     /** @var Biome[]|\SplFixedArray */
     private $map = null;
     public function __construct(Random $random){
-        $this->rainfall = new Simplex($random, 6, 1 / 8, 1 / 700);
-        $this->temperature = new Simplex($random, 6, 1 / 8, 1 / 1024);
-        $this->rainfall = new Simplex($random, 6, 1 / 8, 1 / 1024);
+        $this->height = new Simplex($random, 6, 1/8, 1 / 1024);
+        $this->temperature = new Simplex($random, 8, 1/8, 1 / 1024);
+        $this->rainfall = new Simplex($random, 3, 0.85, 1 / 1024);
     }
     /**
-     * Lookup function called by recalculate() to determine the biome to use for this temperature and rainfall.
+     * Lookup function called by recalculate() to determine the biome to uste for this temperature and rainfall.
      *
      * @param float $temperature
      * @param float $rainfall
@@ -42,12 +43,15 @@ abstract class IslandSelector{
                     if ($biome instanceof UnknownBiome) {
                         throw new \RuntimeException("Unknown biome returned by selector with ID " . $biome->getId());
                     }
-                    $this->map[$i + ($j << 6)] = $biome;
+                    $this->map[$j + ($k << 6) + ($i << 12)] = $biome;
                 }
             }
         }
     }
 
+    public function getHeight($x, $z){
+        return ($this->height->noise2D($x, $z, true) + 1) / 2;
+    }
     public function getTemperature($x, $z){
         return ($this->temperature->noise2D($x, $z, true) + 1) / 2;
     }
@@ -61,8 +65,9 @@ abstract class IslandSelector{
      * @return Biome
      */
     public function pickBiome($x, $z) : Biome{
+        $height = (int) ($this->getHeight($x, $z) * 63);
         $temperature = (int) ($this->getTemperature($x, $z) * 63);
         $rainfall = (int) ($this->getRainfall($x, $z) * 63);
-        return $this->map[$temperature + ($rainfall << 6)];
+        return $this->map[$temperature + ($rainfall << 6) + ($height << 12)];
     }
 }
