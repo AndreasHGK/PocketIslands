@@ -100,16 +100,16 @@ class IslandGenerator extends Generator{
                 }elseif($height < 0.60){
                     return Main::BEACH;
                 }elseif($height < 0.63){
-                    return Main:: PALMBEACH;
+                    return Main::PALMBEACH;
                 }elseif($height < 0.83){
                     if($temperature < 0.25){
-                        if($rainfall < 0.75){
+                        if($rainfall < 0.67){
                             return Main::ICE_PLAINS;
                         }else{
                             return Main::TAIGA;
                         }
-                    }elseif($temperature < 0.80){
-                        if($rainfall < 0.75){
+                    }elseif($temperature < 0.99){
+                        if($rainfall < 0.67){
                             return Main::PLAINS;
                         }else{
                             return Main::FOREST;
@@ -123,39 +123,40 @@ class IslandGenerator extends Generator{
                             return Main::MOUNTAINS;
                         }elseif($rainfall < 0.20){
                             return Main::SMALL_MOUNTAINS;
-                        }elseif($rainfall < 0.70){
+                        }elseif($rainfall < 0.67){
                             return Main::ICE_PLAINS;
                         }elseif($rainfall < 0.88){
                             return Main::TAIGA;
-                        }elseif($rainfall < 0.91){
-                            return Main::BEACH;
+                        }elseif($rainfall < 0.93){
+                            return Main::SMALL_MOUNTAINS;
                         }else{
-                            return Main::LAKE;
+                            return Main::MOUNTAINS;
                         }
                     }elseif($temperature < 0.80){
                         if($rainfall < 0.10){
                             return Main::MOUNTAINS;
                         }elseif($rainfall < 0.20){
                             return Main::SMALL_MOUNTAINS;
-                        }elseif($rainfall < 0.70){
+                        }elseif($rainfall < 0.67){
                             return Main::PLAINS;
                         }elseif($rainfall < 0.88){
                             return Main::FOREST;
                         }elseif($rainfall < 0.91){
-                            return Main::BEACH;
+                            return Main::SMALL_MOUNTAINS;
                         }else{
-                            return Main::LAKE;
+                            return Main::MOUNTAINS;
                         }
                     }else{
                         if($rainfall < 0.88){
                             return Main::DESERT;
-                        }elseif($rainfall < 0.91){
-                            return Main::BEACH;
+                        }elseif($rainfall < 0.93){
+                            return Main::SMALL_MOUNTAINS;
                         }else{
-                            return Main::LAKE;
+                            return Main::MOUNTAINS;
                         }
                     }
                 }
+                return Main::BEACH;
             }
         };
 
