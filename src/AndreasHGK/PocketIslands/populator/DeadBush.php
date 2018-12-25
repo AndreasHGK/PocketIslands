@@ -10,7 +10,7 @@ use pocketmine\level\ChunkManager;
 use pocketmine\level\generator\populator\Populator;
 use pocketmine\utils\Random;
 
-class Cactus extends Populator {
+class DeadBush extends Populator {
     private $level;
     private $randomAmount;
     private $baseAmount;
@@ -28,17 +28,12 @@ class Cactus extends Populator {
             $z = $random->nextRange($chunkZ * 16, $chunkZ * 16 + 15);
             $y = $this->getHighestWorkableBlock($x, $z);
             if($y !== -1){
-                $height = $this->randomHeight(new Random());
-                for($h = 0; $h < $height; $h++){
-                    $this->level->setBlockIdAt($x, $y+$h, $z, Block::CACTUS);
-                }
+                $this->level->setBlockIdAt($x, $y, $z, Block::DEAD_BUSH);
             }
         }
     }
 
-    private function randomHeight(Random $random) : int{
-        return $random->nextRange(1, 3);
-    }
+
 
     private function getHighestWorkableBlock(int $x, int $z) : int{
         for($y = 127; $y >= 0; --$y){

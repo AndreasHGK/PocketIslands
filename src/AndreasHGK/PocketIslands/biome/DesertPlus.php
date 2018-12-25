@@ -8,6 +8,7 @@ use AndreasHGK\PocketIslands\Main;
 use pocketmine\level\biome\SandyBiome;
 use pocketmine\level\biome\Biome;
 use AndreasHGK\PocketIslands\populator\Cactus;
+use AndreasHGK\PocketIslands\populator\DeadBush;
 
 class DesertPlus extends SandyBiome{
 
@@ -17,8 +18,14 @@ class DesertPlus extends SandyBiome{
         $this->temperature = 2;
         $this->rainfall = 0;
         $cactus = new Cactus();
-        $cactus->setBaseAmount(2);
-        $cactus->setBaseAmount(3);
+        $cactus->setBaseAmount(0);
+        $cactus->setRandomAmount(0);
+        $this->addPopulator($cactus);
+
+        $db = new DeadBush();
+        $db->setBaseAmount(0);
+        $db->setRandomAmount(0);
+        $this->addPopulator($db);
     }
 
     public function getName() : string{
