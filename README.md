@@ -8,7 +8,6 @@ Set the generator to *islands*. the rest is optional. Alternatively you can use 
 **[!] Multiworld has been tested and is not compatible with this plugin**
 
 ## Features
-Things i have or haven't done yet:
  
  [✔] Custom generator
  
@@ -18,10 +17,10 @@ Things i have or haven't done yet:
  
  [✔] Better mountains
  
- [✖] Palm trees and cactusses
+ [✔] Palm trees and cactusses
  
  [✖] Finishing off other biomes
  
- [✖] Structures
+ [✖] Small structures
  
-Feel free to help as well. I cannot really progress the plugin if i don't implement custom biomes. Sadly this is not yet possible.
+ [✖] Larger structures

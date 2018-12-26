@@ -8,6 +8,7 @@ use pocketmine\block\Block;
 use pocketmine\block\BlockFactory;
 use pocketmine\level\biome\Biome;
 use AndreasHGK\PocketIslands\Main;
+use AndreasHGK\PocketIslands\populator\PalmTree;
 use pocketmine\level\biome\SandyBiome;
 
 class PalmBeach extends Biome{
@@ -20,6 +21,10 @@ class PalmBeach extends Biome{
             BlockFactory::get(Block::SAND)
         ]);
         $this->setElevation(64, 69);
+        $pt = new PalmTree();
+        $pt->setBaseAmount(0);
+        $pt->setRandomAmount(1);
+        $this->addPopulator($pt);
         //todo: add palmtree populator
     }
     public function getName() : string

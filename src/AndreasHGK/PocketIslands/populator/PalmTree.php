@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace AndreasHGK\PocketIslands\populator;
 
 use pocketmine\block\Block;
-use pocketmine\block\utils\WoodType;
 use pocketmine\level\ChunkManager;
-use pocketmine\level\generator\object\Tree as ObjectTree;
+use AndreasHGK\PocketIslands\object\PalmTree as ObjectPalm;
 use pocketmine\utils\Random;
 use pocketmine\level\generator\populator\Populator;
 
@@ -16,10 +15,7 @@ class PalmTree extends Populator{
     private $level;
     private $randomAmount;
     private $baseAmount;
-    private $type;
-    public function __construct(int $type = WoodType::JUNGLE){
-        $this->type = $type;
-    }
+
     public function setRandomAmount(int $amount) : void{
         $this->randomAmount = $amount;
     }
@@ -36,13 +32,13 @@ class PalmTree extends Populator{
             if($y === -1){
                 continue;
             }
-            ObjectTree::growTree($this->level, $x, $y, $z, $random, $this->type);
+            ObjectPalm::placeObject($this->level, $x, $y, $z, $random);
         }
     }
     private function getHighestWorkableBlock(int $x, int $z) : int{
         for($y = 127; $y > 0; --$y){
-            $b = $this->level->getBlockAt($x, $y, $z)->getId();
-            if($b === Block::DIRT or $b === Block::GRASS){
+            $b = $this->level->getBlockIdAt($x, $y, $z);
+            if($b === Block::SAND){
                 break;
             }elseif($b !== Block::AIR and $b !== Block::SNOW_LAYER){
                 return -1;
