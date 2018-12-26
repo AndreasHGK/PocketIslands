@@ -17,7 +17,7 @@ Set the generator to *islands*. the rest is optional. Alternatively you can use 
  
  [✔] Better mountains
  
- [✔] Palm trees and cactusses
+ [✔] Populators
  
  [✖] Finishing off other biomes
  
