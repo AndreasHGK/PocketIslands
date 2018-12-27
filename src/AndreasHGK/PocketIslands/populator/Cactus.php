@@ -37,7 +37,7 @@ class Cactus extends Populator {
     }
 
     private function randomHeight(Random $random) : int{
-        return $random->nextRange(1, 3);
+        return $random->nextRange(2, 4);
     }
 
     private function getHighestWorkableBlock(int $x, int $z) : int{

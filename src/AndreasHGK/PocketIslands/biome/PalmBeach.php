@@ -25,7 +25,6 @@ class PalmBeach extends Biome{
         $pt->setBaseAmount(0);
         $pt->setRandomAmount(1);
         $this->addPopulator($pt);
-        //todo: add palmtree populator
     }
     public function getName() : string
     {

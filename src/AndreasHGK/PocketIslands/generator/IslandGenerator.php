@@ -18,12 +18,9 @@ use pocketmine\level\Level;
 use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
 use pocketmine\block\BlockFactory;
-use pocketmine\level\generator\biome\BiomeSelector;
 use pocketmine\level\generator\object\OreType;
-use pocketmine\level\generator\populator\GroundCover;
+use AndreasHGK\PocketIslands\populator\GroundCoverPlus as GroundCover;
 use pocketmine\level\generator\populator\Ore;
-use pocketmine\level\generator\populator\Populator;
-use pocketmine\level\generator\noise\Noise;
 
 use AndreasHGK\PocketIslands\biome\Beach;
 use AndreasHGK\PocketIslands\biome\DeepSea;
@@ -31,12 +28,10 @@ use AndreasHGK\PocketIslands\biome\DesertPlus;
 use AndreasHGK\PocketIslands\biome\ForestPlus;
 use AndreasHGK\PocketIslands\biome\IcePlainsPlus;
 use AndreasHGK\PocketIslands\biome\Lake;
-use AndreasHGK\PocketIslands\biome\MountainsPlus;
 use AndreasHGK\PocketIslands\biome\PalmBeach;
 use AndreasHGK\PocketIslands\biome\PlainsPlus;
 use AndreasHGK\PocketIslands\biome\Shore;
 use AndreasHGK\PocketIslands\biome\TaigaPlus;
-use AndreasHGK\PocketIslands\biome\SmallMountainsPlus;
 
 class IslandGenerator extends Generator{
 
@@ -182,7 +177,9 @@ class IslandGenerator extends Generator{
                         $chunk->setBlock($x, $y, $z, Block::STILL_WATER, 0);
                     }
                 }
-                if($extra = true){
+
+                //mountain generation
+                if($extra == true){
                     $he = $this->selector->getHeight($x + ($chunkX * 16), $z + ($chunkZ * 16));
                     $hb = 0;
                     for($yh = 128; $yh > 0; --$yh){
@@ -201,9 +198,11 @@ class IslandGenerator extends Generator{
                     for($yc = 0; $yc < $ye; ++$yc){
                         $chunk->setBlock($x, $yc+$hb, $z, Block::STONE, 0);
                         if($yc+$hb >= 128){
-                            $chunk->setBlock($x, $yc+$hb+1, $z, Block::SNOW_BLOCK, 3);
+                            $chunk->setBlock($x, $yc+$hb, $z, Block::SNOW_BLOCK, 0);
+                            $chunk->setBlock($x, $yc+$hb-1, $z, Block::STONE, 0);
                         }
                     }
+
                 }
 
             }
