@@ -28,4 +28,5 @@ The old style generator has is still available as **islandslegacy**, but will no
  
 ## Creator
 *PocketIslands* was created by **AndreasHGK**
+
 I believe in free plugins available to everyone.
