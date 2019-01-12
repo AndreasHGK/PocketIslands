@@ -8,6 +8,7 @@ use AndreasHGK\PocketIslands\biome\IslandSelector;
 use pocketmine\plugin\PluginBase;
 use pocketmine\level\generator\GeneratorManager;
 use AndreasHGK\PocketIslands\generator\IslandGenerator;
+use AndreasHGK\PocketIslands\generator\IslandGeneratorLegacy;
 use pocketmine\level\biome\Biome;
 use AndreasHGK\PocketIslands\biome\Beach;
 
@@ -26,6 +27,7 @@ class Main extends PluginBase{
 
     public function onLoad() : void{
         GeneratorManager::addGenerator(IslandGenerator::class, "islands", true);
+        GeneratorManager::addGenerator(IslandGeneratorLegacy::class, "islandslegacy", true);
     }
 
 	public function onEnable() : void{

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace AndreasHGK\PocketIslands\biome;
 
-use AndreasHGK\PocketIslands\generator\IslandGenerator;
+use AndreasHGK\PocketIslands\generator\IslandGeneratorLegacy as IslandGenerator;
 use pocketmine\level\biome\Biome;
 use pocketmine\level\biome\UnknownBiome;
 use pocketmine\level\generator\noise\Simplex;
 use pocketmine\level\generator\noise\Noise;
 use pocketmine\utils\Random;
 
-abstract class IslandSelector{
+abstract class LegacySelector{
 
     private $height;
     /** @var Simplex */
@@ -21,7 +21,7 @@ abstract class IslandSelector{
     /** @var Biome[]|\SplFixedArray */
     private $map = null;
     public function __construct(Random $random){
-        $this->height = new Simplex($random, 6, 0.55, 1 / 512); //0.4, 1024  -  0.55, 512  -  1/8, 1024
+        $this->height = new Simplex($random, 6, 1/8, 1 / 1024);
         $this->temperature = new Simplex($random, 8, 1/8, 1 / 1024);
         $this->rainfall = new Simplex($random, 3, 0.85, 1 / 1024);
     }

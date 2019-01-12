@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace AndreasHGK\PocketIslands\generator;
 
-use AndreasHGK\PocketIslands\biome\IslandSelector;
+use AndreasHGK\PocketIslands\biome\LegacySelector as IslandSelector;
 use AndreasHGK\PocketIslands\Main;
 
 use pocketmine\level\biome\Biome;
@@ -33,7 +33,7 @@ use AndreasHGK\PocketIslands\biome\PlainsPlus;
 use AndreasHGK\PocketIslands\biome\Shore;
 use AndreasHGK\PocketIslands\biome\TaigaPlus;
 
-class IslandGenerator extends Generator{
+class IslandGeneratorLegacy extends Generator{
 
     public static $biomes = [ ];
     public static $biomeById = [ ];
@@ -189,13 +189,12 @@ class IslandGenerator extends Generator{
                         }
                         continue;
                     }
-                    /*$ye = pow($hb, 1.2) * ($he - 0.80) / 0.20 - 7;
+                    $ye = pow($hb, 1.2) * ($he - 0.80) / 0.20 - 7;
                     if($ye < 0){
-                        $ye = pow($hb, 1.1) * ($he - 0.60) / 0.60 - 14;
+                        $ye = pow($hb, 1.05) * ($he - 0.60) / 0.70 - 14;
                     }else{
-                        $ye = $ye + pow($hb, 1.1) * ($he - 0.60) / 0.60 - 14;
-                    }*/
-                    $ye = pow($hb, 1.1) * ($he - 0.60) / 0.60 - 14;
+                        $ye = $ye + pow($hb, 1.05) * ($he - 0.60) / 0.70 - 14;
+                    }
                     for($yc = 0; $yc < $ye; ++$yc){
                         $chunk->setBlock($x, $yc+$hb, $z, Block::STONE, 0);
                         if($yc+$hb >= 128){
