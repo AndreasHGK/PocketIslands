@@ -170,7 +170,7 @@ class IslandGenerator extends Generator{
                     $noiseValue = $noise[$x][$z][$y] - 1 / $smoothHeight * ($y - $smoothHeight - $minSum);
                     if($noiseValue > 0){
                         $chunk->setBlock($x, $y, $z, Block::STONE, 0);
-                        if($y > 67){
+                        if($y > 60){
                             $extra = true;
                         }
                     }elseif($y <= $this->waterHeight){

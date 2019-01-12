@@ -12,10 +12,7 @@ use pocketmine\level\biome\Biome;
 class IcePlainsPlus extends SnowyBiome{
     public function __construct(){
         parent::__construct();
-        $tallGrass = new TallGrass();
-        $tallGrass->setBaseAmount(5);
-        $this->addPopulator($tallGrass);
-        $this->setElevation(68, 75);
+        $this->setElevation(64, 71);
         $this->temperature = 0.05;
         $this->rainfall = 0.8;
     }

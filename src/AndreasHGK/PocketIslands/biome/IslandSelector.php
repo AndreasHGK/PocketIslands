@@ -21,9 +21,9 @@ abstract class IslandSelector{
     /** @var Biome[]|\SplFixedArray */
     private $map = null;
     public function __construct(Random $random){
-        $this->height = new Simplex($random, 6, 0.55, 1 / 512); //0.4, 1024  -  0.55, 512  -  1/8, 1024
+        $this->height = new Simplex($random, 6, 0.50, 1 / 512);
         $this->temperature = new Simplex($random, 8, 1/8, 1 / 1024);
-        $this->rainfall = new Simplex($random, 3, 0.85, 1 / 1024);
+        $this->rainfall = new Simplex($random, 4, 0.75, 1 / 1024);
     }
     /**
      * Lookup function called by recalculate() to determine the biome to uste for this temperature and rainfall.

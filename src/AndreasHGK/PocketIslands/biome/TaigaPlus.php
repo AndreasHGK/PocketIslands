@@ -20,7 +20,7 @@ class TaigaPlus extends SnowyBiome{
         $tallGrass = new TallGrass();
         $tallGrass->setBaseAmount(1);
         $this->addPopulator($tallGrass);
-        $this->setElevation(68, 75);
+        $this->setElevation(64, 71);
         $this->temperature = 0.05;
         $this->rainfall = 0.8;
     }

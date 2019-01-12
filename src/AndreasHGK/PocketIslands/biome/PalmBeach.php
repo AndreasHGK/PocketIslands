@@ -20,7 +20,7 @@ class PalmBeach extends Biome{
             BlockFactory::get(Block::SAND),
             BlockFactory::get(Block::SAND)
         ]);
-        $this->setElevation(64, 69);
+        $this->setElevation(64, 71);
         $pt = new PalmTree();
         $pt->setBaseAmount(0);
         $pt->setRandomAmount(1);

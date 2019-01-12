@@ -21,7 +21,7 @@ class ForestPlus extends GrassyBiome{
         $tallGrass = new TallGrass();
         $tallGrass->setBaseAmount(3);
         $this->addPopulator($tallGrass);
-        $this->setElevation(68, 75);
+        $this->setElevation(64, 71);
         $this->temperature = 0.7;
         $this->rainfall = 0.8;
     }
